@@ -359,13 +359,14 @@ function updateCandidateLink(){
   if(!config.questions || config.questions.length===0){
     el.textContent='Add at least one question first'; return;
   }
-  const payload = {
-    company:   config.company,
-    role:      config.role,
-    criteria:  config.criteria,
-    timeLimit: config.timeLimit,
-    questions: config.questions
-  };
+const payload = {
+  company:   config.company,
+  role:      config.role,
+  criteria:  config.criteria,
+  timeLimit: config.timeLimit,
+  questions: config.questions,
+  apiKey:    config.apiKey
+};
   const encoded = btoa(unescape(encodeURIComponent(JSON.stringify(payload))));
   el.textContent = base + '?mode=interview&cfg=' + encoded;
 }
@@ -728,11 +729,12 @@ window.addEventListener('DOMContentLoaded',()=>{
     }
     try{
       const decoded = JSON.parse(decodeURIComponent(escape(atob(cfg))));
-      config.company   = decoded.company   || '';
-      config.role      = decoded.role      || '';
-      config.criteria  = decoded.criteria  || '';
-      config.timeLimit = decoded.timeLimit || 90;
-      config.questions = decoded.questions || [];
+    config.company   = decoded.company   || '';
+config.role      = decoded.role      || '';
+config.criteria  = decoded.criteria  || '';
+config.timeLimit = decoded.timeLimit || 90;
+config.questions = decoded.questions || [];
+config.apiKey    = decoded.apiKey    || '';
     } catch(e){
       alert('Interview link is invalid or corrupted. Please ask for a new link.');
       return;
